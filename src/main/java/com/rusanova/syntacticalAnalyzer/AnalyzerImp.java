@@ -9,8 +9,7 @@ import java.util.List;
 
 public class AnalyzerImp implements Analyzer {
     private List<Token> list;
-    private final String operators = "+-*/";
-    private String stringBuffer;
+   private String stringBuffer;
     private TokenType tokenTypeBuffer;
 
     {
@@ -19,12 +18,14 @@ public class AnalyzerImp implements Analyzer {
         tokenTypeBuffer = null;
     }
 
+    public AnalyzerImp() {
+    }
+
     @Override
     public List<Token> smash(String line) {
-        Arrays.asList(line.replaceAll(" ", "").split("")).stream().forEach(n -> add(n));
-
+        Arrays.stream(line.replaceAll(" ", "").split("")).forEach(this::add);
         list.forEach(System.out::println);
-        return null;
+        return list;
     }
 
     private void add(String string) {
