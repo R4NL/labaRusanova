@@ -7,12 +7,10 @@ import java.util.Objects;
 public final class Token {
     private String value;
     private TokenType type;
-    private int id;
 
-    public Token(String value, TokenType type, int id) {
+    public Token(String value, TokenType type) {
         this.value = value;
         this.type = type;
-        this.id = id;
     }
 
     public Token() {
@@ -34,25 +32,18 @@ public final class Token {
         this.type = type;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Token token = (Token) o;
-        return id == token.id;
+        return Objects.equals(value, token.value) &&
+                type == token.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(value, type);
     }
 
     @Override
@@ -60,7 +51,6 @@ public final class Token {
         return "Token{" +
                 "value='" + value + '\'' +
                 ", type=" + type +
-                ", id=" + id +
                 '}';
     }
 }
