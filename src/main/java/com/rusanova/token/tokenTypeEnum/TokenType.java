@@ -3,7 +3,7 @@ package com.rusanova.token.tokenTypeEnum;
 public enum TokenType {
     Variable, Operator, Bracket, Assignment, Constant, Break;
 
-    public static TokenType witch(String str) {
+    public static TokenType witch(String str) throws IllegalArgumentException{
         if (Character.isLetter(str.charAt(0))) {
             return TokenType.Variable;
         } else {
@@ -20,7 +20,7 @@ public enum TokenType {
                             return TokenType.Operator;
                         } else {
                             if (str.equals(";")) {
-                                return Break;
+                                return TokenType.Break;
                             } else {
                                 throw new IllegalArgumentException("Token not recognized");
                             }
@@ -32,6 +32,9 @@ public enum TokenType {
     }
 
     private static boolean parseInt(String str) {
+        if(str==null){
+            throw new IllegalArgumentException("Get null in parse String to Int");
+        }
         try {
             Integer.parseInt(str);
             return true;
