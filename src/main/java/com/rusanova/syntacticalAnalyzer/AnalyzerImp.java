@@ -28,15 +28,8 @@ public class AnalyzerImp implements Analyzer {
 
     @Override
     public List<Token> smash(String line) {
-        line = line.replaceAll(" ", "");
-        List<String> list = toList(line);
-        check(list);
-        System.out.println(list);
-        return null;
-    }
-
-    private List<String> toList(String str) {
-        return Arrays.asList(str.split(""));
+        check(Arrays.asList(line.replaceAll(" ", "").split("")));
+        return list;
     }
 
     private void check(List<String> lines) {
