@@ -1,1 +1,1 @@
-yas=a-b+2222*b-c/a
+yas=(a-b+2222*b-c/a)

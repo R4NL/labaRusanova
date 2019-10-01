@@ -9,6 +9,7 @@ import java.util.List;
 
 public class AnalyzerImp implements Analyzer {
     private List<Token> list;
+    private final String operators = "+-*/";
 
     {
         list = new ArrayList<>();
@@ -42,6 +43,9 @@ public class AnalyzerImp implements Analyzer {
         for (int i = 0; i < lines.size(); i++) {
             i += checkForVariable(lines, i);
             i += checkForConstant(lines, i);
+            checkForBracket(lines, i);
+            checkForAssignment(lines, i);
+            checkForOperator(lines, i);
         }
         list.forEach(System.out::println);
     }
@@ -86,6 +90,25 @@ public class AnalyzerImp implements Analyzer {
             return true;
         } catch (NumberFormatException e) {
             return false;
+        }
+    }
+
+    private void checkForBracket(List<String> lines, int i) {
+        if (lines.get(i).equals("(") || lines.get(i).equals(")")) {
+            list.add(new Token(lines.get(i), TokenType.Bracket));
+        }
+    }
+
+    private void checkForAssignment(List<String> lines, int i) {
+        if (lines.get(i).equals("=")) {
+            list.add(new Token(lines.get(i), TokenType.Assignment));
+        }
+    }
+
+    private void checkForOperator(List<String> lines, int i) {
+
+        if (operators.contains(lines.get(i))) {
+            list.add(new Token(lines.get(i), TokenType.Operator));
         }
     }
 
