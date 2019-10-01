@@ -1,7 +1,7 @@
 package com.rusanova.token.tokenTypeEnum;
 
 public enum TokenType {
-    Variable, Operator, Bracket, Assignment, Constant;
+    Variable, Operator, Bracket, Assignment, Constant, Break;
 
     public static TokenType witch(String str) {
         if (Character.isLetter(str.charAt(0))) {
@@ -19,7 +19,11 @@ public enum TokenType {
                         if ("+-*/".contains(str)) {
                             return TokenType.Operator;
                         } else {
-                            throw new IllegalArgumentException("Token not recognized");
+                            if (str.equals(";")) {
+                                return Break;
+                            } else {
+                                throw new IllegalArgumentException("Token not recognized");
+                            }
                         }
                     }
                 }

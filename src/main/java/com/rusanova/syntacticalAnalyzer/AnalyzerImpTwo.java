@@ -22,6 +22,7 @@ public class AnalyzerImpTwo implements Analyzer {
     @Override
     public List<Token> smash(String line) {
         Arrays.asList(line.replaceAll(" ", "").split("")).stream().forEach(n -> add(n));
+
         list.forEach(System.out::println);
         return null;
     }
@@ -33,8 +34,12 @@ public class AnalyzerImpTwo implements Analyzer {
             if (stringBuffer != null && !stringBuffer.equals("") && tokenTypeBuffer != null) {
                 list.add(new Token(stringBuffer, tokenTypeBuffer));
             }
-            tokenTypeBuffer = TokenType.witch(string);
-            stringBuffer = string;
+            if (TokenType.witch(string) == TokenType.Break) {
+                list.add(new Token(string, TokenType.witch(string)));
+            } else {
+                tokenTypeBuffer = TokenType.witch(string);
+                stringBuffer = string;
+            }
         }
     }
 

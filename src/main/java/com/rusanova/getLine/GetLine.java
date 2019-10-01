@@ -16,7 +16,7 @@ public final class GetLine {
             e.printStackTrace();
         }
         System.out.println(result);
-        return result.toString();
+        return result.append(';').toString();
     }
 
     private static void createFile(String url){
