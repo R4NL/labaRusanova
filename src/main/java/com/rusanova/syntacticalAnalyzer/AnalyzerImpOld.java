@@ -10,7 +10,6 @@ import java.util.List;
 @Deprecated
 public class AnalyzerImpOld implements Analyzer {
     private List<Token> list;
-    private final String operators = "+-*/";
 
     {
         list = new ArrayList<>();
@@ -19,13 +18,6 @@ public class AnalyzerImpOld implements Analyzer {
     public AnalyzerImpOld() {
     }
 
-    public List<Token> getList() {
-        return list;
-    }
-
-    private void setList(List<Token> list) {
-        this.list = list;
-    }
 
     @Override
     public List<Token> smash(String line) {
@@ -100,8 +92,7 @@ public class AnalyzerImpOld implements Analyzer {
     }
 
     private void checkForOperator(List<String> lines, int i) {
-
-        if (operators.contains(lines.get(i))) {
+        if ("+-*/".contains(lines.get(i))) {
             list.add(new Token(lines.get(i), TokenType.Operator));
         }
     }
