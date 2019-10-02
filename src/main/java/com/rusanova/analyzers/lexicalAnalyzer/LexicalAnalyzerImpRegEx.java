@@ -37,7 +37,6 @@ public class LexicalAnalyzerImpRegEx implements LexicalAnalyzer {
 
     private void collect(Field field) {
         if (field.toString().contains("final")) {
-
             try {
                 Matcher matcher = Pattern.compile(String.valueOf(field.get(this))).matcher(line);
                 result.addAll(matcher.results().map(n -> new Token(matcher.start(), matcher.group(), TokenType.valueOf(field.getName()))).collect(Collectors.toList()));
