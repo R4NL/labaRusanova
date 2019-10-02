@@ -41,6 +41,7 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
             failedAnalyze = false;
             throw new IllegalArgumentException("Incorrect count of Assignment");
         }
+
     }
 
     private void checkToken(Token token) {
