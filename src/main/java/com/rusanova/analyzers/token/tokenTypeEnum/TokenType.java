@@ -1,9 +1,9 @@
-package com.rusanova.token.tokenTypeEnum;
+package com.rusanova.analyzers.token.tokenTypeEnum;
 
 public enum TokenType {
     Variable, Operator, Bracket, Assignment, Constant, Break;
 
-    public static TokenType witch(String str) throws IllegalArgumentException{
+    public static TokenType witch(String str) throws IllegalArgumentException {
         if (Character.isLetter(str.charAt(0))) {
             return TokenType.Variable;
         } else {
@@ -32,7 +32,7 @@ public enum TokenType {
     }
 
     private static boolean parseInt(String str) {
-        if(str==null){
+        if (str == null) {
             throw new IllegalArgumentException("Get null in parse String to Int");
         }
         try {

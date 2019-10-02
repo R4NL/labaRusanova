@@ -1,4 +1,4 @@
-package com.rusanova.getLine;
+package com.rusanova.inPutStream;
 
 import java.io.IOException;
 import java.nio.file.Files;

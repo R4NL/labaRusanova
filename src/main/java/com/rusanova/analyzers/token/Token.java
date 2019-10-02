@@ -1,12 +1,19 @@
-package com.rusanova.token;
+package com.rusanova.analyzers.token;
 
-import com.rusanova.token.tokenTypeEnum.TokenType;
+import com.rusanova.analyzers.token.tokenTypeEnum.TokenType;
 
 import java.util.Objects;
 
 public final class Token {
+    private int id;
     private String value;
     private TokenType type;
+
+    public Token(int id, String value, TokenType type) {
+        this.id = id;
+        this.value = value;
+        this.type = type;
+    }
 
     public Token(String value, TokenType type) {
         this.value = value;
@@ -14,6 +21,14 @@ public final class Token {
     }
 
     public Token() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getValue() {
@@ -37,19 +52,21 @@ public final class Token {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Token token = (Token) o;
-        return Objects.equals(value, token.value) &&
+        return id == token.id &&
+                Objects.equals(value, token.value) &&
                 type == token.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, type);
+        return Objects.hash(id, value, type);
     }
 
     @Override
     public String toString() {
         return "Token{" +
-                "value='" + value + '\'' +
+                "id=" + id +
+                ", value='" + value + '\'' +
                 ", type=" + type +
                 '}';
     }

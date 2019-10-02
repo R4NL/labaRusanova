@@ -1,13 +1,23 @@
 package com.rusanova;
 
-import com.rusanova.getLine.GetLine;
-import com.rusanova.syntacticalAnalyzer.AnalyzerImp;
+import com.rusanova.analyzers.lexicalAnalyzer.LexicalAnalyzer;
+import com.rusanova.analyzers.lexicalAnalyzer.LexicalAnalyzerImp;
+import com.rusanova.analyzers.syntacticAnalyzer.SyntacticAnalyzer;
+import com.rusanova.analyzers.syntacticAnalyzer.SyntacticAnalyzerImp;
+import com.rusanova.analyzers.token.Token;
+import com.rusanova.inPutStream.GetLine;
+
+import java.util.List;
 
 /**
  * Hello world!
  */
 public class App {
     public static void main(String[] args) {
-        new AnalyzerImp().smash(GetLine.getLine("String.txt"));
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzerImp();
+        List<Token> tokenList= lexicalAnalyzer.smash(GetLine.getLine("String.txt"));
+        SyntacticAnalyzer syntacticAnalyzer=new SyntacticAnalyzerImp(tokenList);
+        syntacticAnalyzer.analyze();
+
     }
 }

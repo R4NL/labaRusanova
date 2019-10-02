@@ -1,15 +1,15 @@
-package com.rusanova.syntacticalAnalyzer;
+package com.rusanova.analyzers.lexicalAnalyzer;
 
-import com.rusanova.token.Token;
-import com.rusanova.token.tokenTypeEnum.TokenType;
+import com.rusanova.analyzers.token.Token;
+import com.rusanova.analyzers.token.tokenTypeEnum.TokenType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AnalyzerImp implements Analyzer {
+public class LexicalAnalyzerImp implements LexicalAnalyzer {
     private List<Token> list;
-   private String stringBuffer;
+    private String stringBuffer;
     private TokenType tokenTypeBuffer;
 
     {
@@ -18,7 +18,7 @@ public class AnalyzerImp implements Analyzer {
         tokenTypeBuffer = null;
     }
 
-    public AnalyzerImp() {
+    public LexicalAnalyzerImp() {
     }
 
     @Override
@@ -33,10 +33,10 @@ public class AnalyzerImp implements Analyzer {
             stringBuffer += string;
         } else {
             if (stringBuffer != null && !stringBuffer.equals("") && tokenTypeBuffer != null) {
-                list.add(new Token(stringBuffer, tokenTypeBuffer));
+                list.add(new Token(list.size(), stringBuffer, tokenTypeBuffer));
             }
             if (TokenType.witch(string) == TokenType.Break) {
-                list.add(new Token(string, TokenType.witch(string)));
+                list.add(new Token(list.size(), string, TokenType.witch(string)));
             } else {
                 tokenTypeBuffer = TokenType.witch(string);
                 stringBuffer = string;

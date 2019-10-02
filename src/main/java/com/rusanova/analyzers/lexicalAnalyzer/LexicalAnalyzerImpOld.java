@@ -1,21 +1,21 @@
-package com.rusanova.syntacticalAnalyzer;
+package com.rusanova.analyzers.lexicalAnalyzer;
 
-import com.rusanova.token.Token;
-import com.rusanova.token.tokenTypeEnum.TokenType;
+import com.rusanova.analyzers.token.Token;
+import com.rusanova.analyzers.token.tokenTypeEnum.TokenType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Deprecated
-public class AnalyzerImpOld implements Analyzer {
+public class LexicalAnalyzerImpOld implements LexicalAnalyzer {
     private List<Token> list;
 
     {
         list = new ArrayList<>();
     }
 
-    public AnalyzerImpOld() {
+    public LexicalAnalyzerImpOld() {
     }
 
 
