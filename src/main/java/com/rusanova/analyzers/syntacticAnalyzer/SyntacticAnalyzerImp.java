@@ -42,7 +42,12 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
                     typeList = TokenAction.AccessTokenTypeAfterCurrent(token.getType());
                 } else {
                     failedAnalyze = false;
-                    System.out.println("Illegal type of token №"+ token.getId());
+                    System.out.println("Illegal type of token №" + token.getId());
+                }
+            }
+            if (token.getType() == TokenType.Break) {
+                if (list.size() > (token.getId() + 1)) {
+                    System.out.println("Illegal symbol №" + (token.getId() + 1));
                 }
             }
 

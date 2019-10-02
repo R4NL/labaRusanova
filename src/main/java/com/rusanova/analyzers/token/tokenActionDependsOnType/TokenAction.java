@@ -3,22 +3,23 @@ package com.rusanova.analyzers.token.tokenActionDependsOnType;
 import com.rusanova.analyzers.token.Token;
 import com.rusanova.analyzers.token.tokenTypeEnum.TokenType;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class TokenAction {
     public static List<TokenType> AccessTokenTypeAfterCurrent(TokenType currentTokenType) {
         switch (currentTokenType) {
             case Variable:
-                return List.of(TokenType.Assignment, TokenType.Operator, TokenType.Break);
+                return List.of(TokenType.Assignment, TokenType.Operator, TokenType.Break,TokenType.Bracket);
             case Constant:
                 return List.of(TokenType.Operator, TokenType.Break);
             case Bracket:
-                return List.of(TokenType.Variable, TokenType.Constant, TokenType.Break, TokenType.Bracket);
+                return List.of(TokenType.Variable, TokenType.Constant, TokenType.Break, TokenType.Bracket,TokenType.Operator);
             case Operator:
             case Assignment:
-                return List.of(TokenType.Variable, TokenType.Constant);
+                return List.of(TokenType.Variable, TokenType.Constant,TokenType.Bracket);
             default:
-                return List.of();
+                return new LinkedList<>();
         }
     }
 
