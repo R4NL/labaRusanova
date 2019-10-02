@@ -22,8 +22,8 @@ public final class GetLine {
     private static void createFile(String url){
         try {
             Files.createFile(Path.of(url));
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

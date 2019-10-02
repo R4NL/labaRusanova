@@ -7,9 +7,12 @@ import com.rusanova.analyzers.token.tokenTypeEnum.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.rusanova.analyzers.token.tokenTypeEnum.TokenType.Assignment;
+
 public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
     private List<Token> list;
     private boolean failedAnalyze = true;
+    private List<TokenType> typeList = new ArrayList<>();
 
 
     public SyntacticAnalyzerImp(List<Token> list) {
@@ -33,26 +36,35 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
     }
 
     private void check() {
-        List<TokenType> typeList = new ArrayList<>();
-        for (Token token : list) {
-            if (typeList.contains(token.getType())) {
-                typeList = TokenAction.AccessTokenTypeAfterCurrent(token.getType());
-            } else {
-                if (typeList.equals(new ArrayList<>()) && token.getType() == TokenType.Variable) {
-                    typeList = TokenAction.AccessTokenTypeAfterCurrent(token.getType());
-                } else {
-                    failedAnalyze = false;
-                    System.out.println("Illegal type of token №" + token.getId());
-                }
-            }
-            if (token.getType() == TokenType.Break) {
-                if (list.size() > (token.getId() + 1)) {
-                    System.out.println("Illegal symbol №" + (token.getId() + 1));
-                }
-            }
-
+        list.forEach(this::checkToken);
+        if (list.stream().mapToInt(this::countAssignment).sum() != 1) {
+            failedAnalyze = false;
+            throw new IllegalArgumentException("Incorrect count of Assignment");
         }
     }
 
+    private void checkToken(Token token) {
+        if (typeList.contains(token.getType())) {
+            typeList = TokenAction.AccessTokenTypeAfterCurrent(token.getType());
+        } else {
+            if (typeList.equals(new ArrayList<>()) && token.getType() == TokenType.Variable) {
+                typeList = TokenAction.AccessTokenTypeAfterCurrent(token.getType());
+            } else {
+                failedAnalyze = false;
+                System.out.println("Illegal type of token №" + token.getId());
+            }
+        }
+        if (token.getType() == TokenType.Break) {
+            if (list.size() > (token.getId() + 1)) {
+                System.out.println("Illegal symbol №" + (token.getId() + 1));
+            }
+        }
+    }
+
+    private int countAssignment(Token token) {
+        if (token.getType() == Assignment) {
+            return 1;
+        } else return 0;
+    }
 
 }
