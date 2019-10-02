@@ -32,6 +32,7 @@ public class LexicalAnalyzerImpRegEx implements LexicalAnalyzer {
         Arrays.asList(this.getClass().getDeclaredFields()).forEach(this::collect);
         result.sort((Comparator.comparingInt(Token::getId)));
         result.forEach(System.out::println);
+        checkForUnknownTokens();
         return null;
     }
 
@@ -44,6 +45,14 @@ public class LexicalAnalyzerImpRegEx implements LexicalAnalyzer {
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    private void checkForUnknownTokens() {
+        StringBuilder builder = new StringBuilder(line);
+        result.forEach(n -> builder.delete(builder.indexOf(n.getValue()), n.getValue().length()));
+        if (builder.length() > 0) {
+            throw new IllegalArgumentException("Unknown token " + builder);
         }
     }
 }
