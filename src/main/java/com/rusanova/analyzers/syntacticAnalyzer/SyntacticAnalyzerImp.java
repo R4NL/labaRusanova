@@ -41,6 +41,7 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
             failedAnalyze = false;
             throw new IllegalArgumentException("Incorrect count of Assignment");
         }
+        list.forEach(this::checkForMultiBrackets);
 
     }
 
@@ -58,6 +59,7 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
         if (token.getType() == TokenType.Break) {
             if (list.size() > (token.getId() + 1)) {
                 System.out.println("Illegal symbol №" + (token.getId() + 1));
+                failedAnalyze = false;
             }
         }
     }
@@ -66,6 +68,22 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
         if (token.getType() == Assignment) {
             return 1;
         } else return 0;
+    }
+
+    private void checkForMultiBrackets(Token token) {
+        if (token.getType() == TokenType.Bracket) {
+            if (token.getValue().equals("(")) {
+                if (list.get(list.indexOf(token)+1).getValue().equals(")")) {
+                    System.out.println("Illegal token №" + token.getId());
+                    failedAnalyze = false;
+                }
+            } else {
+                if (list.get(list.indexOf(token)+1).getValue().equals("(")) {
+                    System.out.println("Illegal token №" + token.getId());
+                    failedAnalyze = false;
+                }
+            }
+        }
     }
 
 }

@@ -33,7 +33,7 @@ public class LexicalAnalyzerImpRegEx implements LexicalAnalyzer {
         result.sort((Comparator.comparingInt(Token::getId)));
         result.forEach(System.out::println);
         checkForUnknownTokens();
-        return null;
+        return result;
     }
 
     private void collect(Field field) {
