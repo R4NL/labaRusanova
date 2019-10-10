@@ -10,14 +10,14 @@ public class TokenAction {
     public static List<TokenType> AccessTokenTypeAfterCurrent(TokenType currentTokenType) {
         switch (currentTokenType) {
             case Variable:
-                return List.of(TokenType.Assignment, TokenType.Operator, TokenType.Break,TokenType.Bracket);
+                return List.of(TokenType.Assignment, TokenType.Operator, TokenType.Break, TokenType.Bracket);
             case Constant:
-                return List.of(TokenType.Operator, TokenType.Break);
+                return List.of(TokenType.Operator, TokenType.Break, TokenType.Bracket);
             case Bracket:
-                return List.of(TokenType.Variable, TokenType.Constant, TokenType.Break, TokenType.Bracket,TokenType.Operator);
+                return List.of(TokenType.Variable, TokenType.Constant, TokenType.Break, TokenType.Bracket, TokenType.Operator);
             case Operator:
             case Assignment:
-                return List.of(TokenType.Variable, TokenType.Constant,TokenType.Bracket);
+                return List.of(TokenType.Variable, TokenType.Constant, TokenType.Bracket);
             default:
                 return new LinkedList<>();
         }

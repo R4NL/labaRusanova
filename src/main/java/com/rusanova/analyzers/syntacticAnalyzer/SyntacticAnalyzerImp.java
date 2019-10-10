@@ -6,14 +6,21 @@ import com.rusanova.analyzers.token.tokenTypeEnum.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static com.rusanova.analyzers.token.tokenTypeEnum.TokenType.Assignment;
 
 public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
     private List<Token> list;
-    private boolean failedAnalyze = true;
-    private List<TokenType> typeList = new ArrayList<>();
+    private boolean failedAnalyze;
+    private List<TokenType> typeList;
 
+    {
+        failedAnalyze = true;
+        typeList = new ArrayList<>();
+    }
 
     public SyntacticAnalyzerImp(List<Token> list) {
         this.list = list;
@@ -32,7 +39,11 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
             failedAnalyze = false;
         }
         check();
-        System.out.println(failedAnalyze);
+        list.forEach(System.out::println);
+        checkForBrackets();
+        if (failedAnalyze) {
+            System.out.println("No mistake");
+        }
     }
 
     private void check() {
@@ -41,7 +52,7 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
             failedAnalyze = false;
             throw new IllegalArgumentException("Incorrect count of Assignment");
         }
-        list.forEach(this::checkForMultiBrackets);
+        checkForMultiBrackets();
 
     }
 
@@ -54,6 +65,7 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
             } else {
                 failedAnalyze = false;
                 System.out.println("Illegal type of token №" + token.getId());
+
             }
         }
         if (token.getType() == TokenType.Break) {
@@ -70,20 +82,31 @@ public class SyntacticAnalyzerImp implements SyntacticAnalyzer {
         } else return 0;
     }
 
-    private void checkForMultiBrackets(Token token) {
-        if (token.getType() == TokenType.Bracket) {
-            if (token.getValue().equals("(")) {
-                if (list.get(list.indexOf(token)+1).getValue().equals(")")) {
-                    System.out.println("Illegal token №" + token.getId());
-                    failedAnalyze = false;
-                }
-            } else {
-                if (list.get(list.indexOf(token)+1).getValue().equals("(")) {
-                    System.out.println("Illegal token №" + token.getId());
-                    failedAnalyze = false;
-                }
-            }
+    private void checkForMultiBrackets() {
+        Map<String, Long> map = list.stream().filter(s -> s.getValue().equals("(") || s.getValue().equals(")")).collect(Collectors
+                .groupingBy(Token::getValue, Collectors.counting()));
+        if (map.get("(") != map.get(")")) {
+            System.out.println("Illegal count of brackets");
         }
+    }
+
+    private void checkForBrackets() {
+        AtomicInteger counter = new AtomicInteger();
+        List<Token> brackets = list.stream().filter(s -> s.getValue().equals("(") || s.getValue().equals(")"))
+                .collect(Collectors.toList());
+        System.out.println(brackets);
+        brackets.forEach(s -> {
+            if (s.getValue().equals("(")) {
+                counter.getAndIncrement();
+            }
+            if (s.getValue().equals(")")) {
+                counter.getAndDecrement();
+            }
+            if (counter.get() < 0) {
+                failedAnalyze = false;
+                System.out.println("Illegal bracket in token №" + s.getId());
+            }
+        });
     }
 
 }

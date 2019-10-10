@@ -14,13 +14,14 @@ import java.util.stream.Collectors;
 
 public class LexicalAnalyzerImpRegEx implements LexicalAnalyzer {
     private List<Token> result;
-    private final String Variable = "[a-zA-z]+";
-    private final String Operator = "[+-/*]";
+    private final String Variable = "[a-zA-z]+\\w*";
+    private final String Operator = "[+-/*&&[^.]]";
     private final String Bracket = "[()]";
     private final String Assignment = "[=]";
-    private final String Constant = "[1-9]+";
+    private final String Constant = "\\d+[\\.]?\\d*+";
     private final String Break = ";$";
     private String line;
+    private Token tokenBuffer;
 
     {
         result = new ArrayList<>();
@@ -33,6 +34,14 @@ public class LexicalAnalyzerImpRegEx implements LexicalAnalyzer {
         result.sort((Comparator.comparingInt(Token::getId)));
         result.forEach(System.out::println);
         checkForUnknownTokens();
+        System.out.println();
+
+        int i = 0;
+        while (i < (result.size() - 1)) {
+            tokenOperatorConverter(result.get(i));
+            i++;
+        }
+
         return result;
     }
 
@@ -50,9 +59,29 @@ public class LexicalAnalyzerImpRegEx implements LexicalAnalyzer {
 
     private void checkForUnknownTokens() {
         StringBuilder builder = new StringBuilder(line);
-        result.forEach(n -> builder.delete(builder.indexOf(n.getValue()), n.getValue().length()));
+        System.out.println(builder);
+        result.forEach(n -> builder.delete(builder.indexOf(n.getValue()), builder.indexOf(n.getValue()) + n.getValue().length()));
         if (builder.length() > 0) {
-            throw new IllegalArgumentException("Unknown token " + builder);
+            System.out.println("Unknown token " + builder);
         }
+    }
+
+    private void tokenOperatorConverter(Token token) {
+        Token tokenAfter = result.get(result.indexOf(token) + 1);
+
+        switch (tokenAfter.getType()) {
+            case Constant, Variable:
+                switch (token.getType()) {
+                    case Operator: {
+                        result.set(result.indexOf(tokenAfter),
+                                token.setType(tokenAfter.getType())
+                                        .setValue(token.getValue() + tokenAfter.getValue()));
+                        result.remove(token);
+                        break;
+                    }
+
+                }
+        }
+
     }
 }

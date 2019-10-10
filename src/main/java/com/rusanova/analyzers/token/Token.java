@@ -27,24 +27,27 @@ public final class Token {
         return id;
     }
 
-    public void setId(int id) {
+    public Token setId(int id) {
         this.id = id;
+        return this;
     }
 
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public Token setValue(String value) {
         this.value = value;
+        return this;
     }
 
     public TokenType getType() {
         return type;
     }
 
-    public void setType(TokenType type) {
+    public Token setType(TokenType type) {
         this.type = type;
+        return this;
     }
 
     @Override
